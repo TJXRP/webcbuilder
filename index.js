@@ -870,6 +870,7 @@ adminRouter.post('/promote-sidedish', adminRateLimiter, authMiddleware, async (r
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const submission = await client.submitContractInput(payload);
     const status = await submission.submissionStatus;
@@ -936,6 +937,7 @@ adminRouter.post('/vote-delete-sd', adminRateLimiter, authMiddleware, async (req
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const submission = await client.submitContractInput(payload);
     const status = await submission.submissionStatus;
@@ -1109,6 +1111,7 @@ adminRouter.post('/promote-version', adminRateLimiter, authMiddleware, async (re
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const payload = BSON.serialize({ type: 'go-live', version });
     const submission = await client.submitContractInput(payload);
@@ -1337,6 +1340,7 @@ adminRouter.post('/morefunctions-promote', adminRateLimiter, authMiddleware, asy
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const payload = BSON.serialize({ type: 'more-go-live', version });
     const submission = await client.submitContractInput(payload);
@@ -1388,6 +1392,7 @@ adminRouter.post('/morefunctions-deletevote', adminRateLimiter, authMiddleware, 
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const payload = BSON.serialize({ type: 'more-vote-delete', version });
     const submission = await client.submitContractInput(payload);
@@ -1545,6 +1550,7 @@ adminRouter.post('/refresh-unl', adminRateLimiter, authMiddleware, async (req, r
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const payload = BSON.serialize({ type: 'refresh-unl' });
     const submission = await client.submitContractInput(payload);
@@ -1871,6 +1877,7 @@ adminRouter.post('/vote-delete', adminRateLimiter, authMiddleware, async (req, r
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const payload = BSON.serialize({ type: 'vote-delete', version });
     const submission = await client.submitContractInput(payload);
@@ -2054,6 +2061,7 @@ adminRouter.post('/go-live', adminRateLimiter, authMiddleware, async (req, res) 
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const payload = BSON.serialize({ type: 'go-live', version });
     const submission = await client.submitContractInput(payload);
@@ -2504,6 +2512,7 @@ adminRouter.post('/promote-api', adminRateLimiter, authMiddleware, async (req, r
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const submission = await client.submitContractInput(payload);
     const status = await submission.submissionStatus;
@@ -2618,6 +2627,7 @@ adminRouter.post('/vote-delete-api', adminRateLimiter, authMiddleware, async (re
         resolve(result);
       });
     });
+    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
 
     const submission = await client.submitContractInput(payload);
     const status = await submission.submissionStatus;
