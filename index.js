@@ -870,7 +870,7 @@ adminRouter.post('/promote-sidedish', adminRateLimiter, authMiddleware, async (r
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const submission = await client.submitContractInput(payload);
     const status = await submission.submissionStatus;
@@ -937,7 +937,7 @@ adminRouter.post('/vote-delete-sd', adminRateLimiter, authMiddleware, async (req
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const submission = await client.submitContractInput(payload);
     const status = await submission.submissionStatus;
@@ -1111,7 +1111,7 @@ adminRouter.post('/promote-version', adminRateLimiter, authMiddleware, async (re
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const payload = BSON.serialize({ type: 'go-live', version });
     const submission = await client.submitContractInput(payload);
@@ -1340,7 +1340,7 @@ adminRouter.post('/morefunctions-promote', adminRateLimiter, authMiddleware, asy
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const payload = BSON.serialize({ type: 'more-go-live', version });
     const submission = await client.submitContractInput(payload);
@@ -1392,7 +1392,7 @@ adminRouter.post('/morefunctions-deletevote', adminRateLimiter, authMiddleware, 
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const payload = BSON.serialize({ type: 'more-vote-delete', version });
     const submission = await client.submitContractInput(payload);
@@ -1550,7 +1550,7 @@ adminRouter.post('/refresh-unl', adminRateLimiter, authMiddleware, async (req, r
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const payload = BSON.serialize({ type: 'refresh-unl' });
     const submission = await client.submitContractInput(payload);
@@ -1877,7 +1877,7 @@ adminRouter.post('/vote-delete', adminRateLimiter, authMiddleware, async (req, r
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const payload = BSON.serialize({ type: 'vote-delete', version });
     const submission = await client.submitContractInput(payload);
@@ -2061,7 +2061,7 @@ adminRouter.post('/go-live', adminRateLimiter, authMiddleware, async (req, res) 
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const payload = BSON.serialize({ type: 'go-live', version });
     const submission = await client.submitContractInput(payload);
@@ -2512,7 +2512,7 @@ adminRouter.post('/promote-api', adminRateLimiter, authMiddleware, async (req, r
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const submission = await client.submitContractInput(payload);
     const status = await submission.submissionStatus;
@@ -2574,7 +2574,7 @@ adminRouter.post('/push-api', adminRateLimiter, authMiddleware, async (req, res)
       }
 
       const result = await new Promise((resolve, reject) => {
-        const timeout = setTimeout(() => reject(new Error('Timeout waiting for contract response')), 10000);
+        const timeout = setTimeout(() => { client.close().catch(() => {}); reject(new Error('Timeout waiting for contract response')); }, 10000);
         client.on(HotPocket.events.contractOutput, output => {
           clearTimeout(timeout);
           resolve(output);
@@ -2627,7 +2627,7 @@ adminRouter.post('/vote-delete-api', adminRateLimiter, authMiddleware, async (re
         resolve(result);
       });
     });
-    waitForOutput.catch(() => {}); // a timeout that fires before the await below must not exit Node (unhandled rejection)
+    waitForOutput.catch(() => client.close()).catch(() => {}); // on timeout: close the client, and never let the rejection exit Node
 
     const submission = await client.submitContractInput(payload);
     const status = await submission.submissionStatus;
